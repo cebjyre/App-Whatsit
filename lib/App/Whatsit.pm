@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-package App::WhatIs;
+package App::Whatsit;
 
 # ABSTRACT: Easily find out package details from the command line.
 
