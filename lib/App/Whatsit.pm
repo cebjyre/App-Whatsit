@@ -4,7 +4,7 @@ package App::Whatsit;
 
 # ABSTRACT: Easily find out package details from the command line.
 
-use base qw(App::Cmd::Simple)
+use base qw(App::Cmd::Simple);
 
 sub validate_args
 {
@@ -29,7 +29,7 @@ sub execute
 
 sub find_details
 {
-	my $packagee = shift;
+	my $package = shift;
 	
 	eval "use $package";
 	if($@)
@@ -46,7 +46,7 @@ sub find_details
 		my $path = $INC{$package_file};
 		$path = 'Unknown' unless defined $path;
 		
-		print "$package:\n\tVersion: $version\n\tPath: $path";
+		print "$package:\n\tVersion: $version\n\tPath: $path\n";
 	}
 }
 

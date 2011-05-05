@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+package whatsit;
+# ABSTRACT: Determine perl module version details
+
+use App::Whatsit;
+App::Whatsit->run;
