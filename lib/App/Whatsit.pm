@@ -6,6 +6,12 @@ package App::Whatsit;
 
 use base qw(App::Cmd::Simple);
 
+=head1 SYNOPSIS
+
+  $ whatsit [package name]
+
+=cut
+
 sub validate_args
 {
 	my $self = shift;
@@ -23,11 +29,11 @@ sub execute
 	
 	foreach (@$args)
 	{
-		find_details($_);
+		_find_details($_);
 	}
 }
 
-sub find_details
+sub _find_details
 {
 	my $package = shift;
 	
