@@ -10,15 +10,29 @@ use base qw(App::Cmd::Simple);
 
   $ whatsit [package name]
 
+  $ whatsit -p [package name]
+
+=head2 Path only
+
+Sending in the -p flag will give you the path to the current module.
+Suitable for use in pipes or backticks:
+
+    $ emacs `whatsit -p Catalyt::Request Catalyst::Response`
+
 =cut
+
+my $path_only = 0;
 
 sub validate_args
 {
 	my $self = shift;
 	my $options = shift;
 	my $args = shift;
-	
-	$self->usage_error("At least one package name is required") unless @$args;
+
+	$path_only = grep { $_ =~ /^-(?:-)?p(?:ath)?/ } @$args;
+	my $no_args = $path_only ? scalar(@$args) == 1 : @$args;
+	$self->usage_error("At least one package name is required") if $no_args;
+
 }
 
 sub execute
@@ -29,6 +43,7 @@ sub execute
 	
 	foreach (@$args)
 	{
+		next if $_ =~ /^-/;
 		_find_details($_);
 	}
 }
@@ -51,8 +66,8 @@ sub _find_details
 		$package_file =~ s/::/\//g;
 		my $path = $INC{$package_file};
 		$path = 'Unknown' unless defined $path;
-		
-		print "$package:\n\tVersion: $version\n\tPath: $path\n";
+		print $path_only ? "$path "
+		  : "$package:\n\tVersion: $version\n\tPath: $path\n";
 	}
 }
 
